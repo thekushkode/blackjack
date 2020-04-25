@@ -128,6 +128,10 @@ const playerHand = document.getElementById("player-hand");
 // deal button event
 dealButton.addEventListener("click", () => {
     dealCards();
+    if (p_Points === 21) {
+        playerPoints.textContent = "You Won! 🚀";
+        setTimeout(reload, 3000);
+    }
 })
 
 // hit button event
@@ -172,6 +176,7 @@ const winner = function () {
         playerPoints.textContent = "You won, bro!";
     } else if (d_Points <= 21 && d_Points > p_Points) {
         playerPoints.textContent = "You lost, loser!";
+        setTimeout(reload, 3000);;
     } else if (d_Points === p_Points) {
         playerPoints.textContent = "TIE!";
         dealerPoints.textContent = "TIE";
@@ -182,24 +187,6 @@ const reload = function () {
     location.reload(true);
 }
 
-const reset = function () {
-    if (p_Points > 21) {
-        playerHand.innerHTML = "";
-        dealerHand.innerHTML = "";
-        p_Points = 0;
-        d_Points = 0;
-        playerPoints.textContent = 0;
-        dealerPoints.textContent = 0;
-    } else if (d_Points > 21) {
-        dealerHand.innerHTML = "";
-        playerHand.innerHTML = "";
-        p_Points = 0;
-        d_Points = 0;
-        playerPoints.textContent = 0;
-        dealerPoints.textContent = 0;
-    }
-}
-
 const bust = function () {
     if (p_Points > 21) {
         playerPoints.textContent = "💣 You Busted! 💣";
@@ -207,15 +194,13 @@ const bust = function () {
     } else if (d_Points > 21) {
         dealerPoints.textContent = "💣 You Busted! 💣";
         setTimeout(reload, 3000);
+    } else if (p_Points === d_Points) {
+        playerPoints.textContent = "TIE!";
+        dealerPoints.textContent = "TIE!";
+        setTimeout(reload, 3000);
     }
 };
 
-// const bust = function (points) {
-//     if (points > 21) {
-//         playerPoints.textContent = "You Busted";
-//     };
-// }
-// bust(p_Points);
 
 // random integer based on argument. (52) gives random int b/w 0-52.
 function getRandomInt(cardCount) {
@@ -230,3 +215,21 @@ console.log(z);
 // finds index of above obj
 const w = deck.indexOf(z);
 console.log(w);
+
+// const reset = function () {
+//     if (p_Points > 21) {
+//         playerHand.innerHTML = "";
+//         dealerHand.innerHTML = "";
+//         p_Points = 0;
+//         d_Points = 0;
+//         playerPoints.textContent = 0;
+//         dealerPoints.textContent = 0;
+//     } else if (d_Points > 21) {
+//         dealerHand.innerHTML = "";
+//         playerHand.innerHTML = "";
+//         p_Points = 0;
+//         d_Points = 0;
+//         playerPoints.textContent = 0;
+//         dealerPoints.textContent = 0;
+//     }
+// }
