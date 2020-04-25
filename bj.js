@@ -142,13 +142,12 @@ hitButton.addEventListener("click", () => {
     playerPoints.textContent = p_Points
     deck.shift();
     bust();
-    setTimeout(reset, 200);
+    // setTimeout(reload, 500);
 });
 
 standButton.addEventListener("click", () => {
     dealerHit();
-    winner();
-    reset();
+    bust();
 });
 
 const dealerHit = function () {
@@ -161,18 +160,21 @@ const dealerHit = function () {
         dealerHand.appendChild(dealerHitCard);
         d_Points += dealerHitCardValue;
         dealerPoints.textContent = d_Points;
+        deck.shift();
     }
+    winner();
 }
 
 const winner = function () {
     if (d_Points === 17 && p_Points > 17) {
-        alert("You won!");
+        playerPoints.textContent = "You won, bro!";
     } else if (d_Points > 21) {
-        alert("You Won!");
+        playerPoints.textContent = "You won, bro!";
     } else if (d_Points <= 21 && d_Points > p_Points) {
-        alert("You Lost!");
+        playerPoints.textContent = "You lost, loser!";
     } else if (d_Points === p_Points) {
-        alert("It's a tie!")
+        playerPoints.textContent = "TIE!";
+        dealerPoints.textContent = "TIE";
     }
 }
 
@@ -196,16 +198,17 @@ const reset = function () {
         playerPoints.textContent = 0;
         dealerPoints.textContent = 0;
     }
-    setTimeout(reload, 200);
 }
 
 const bust = function () {
     if (p_Points > 21) {
         playerPoints.textContent = "💣 You Busted! 💣";
+        setTimeout(reload, 3000);
     } else if (d_Points > 21) {
-        dealerPoints.textContent = "💣 You Busted! 💣"
+        dealerPoints.textContent = "💣 You Busted! 💣";
+        setTimeout(reload, 3000);
     }
-}
+};
 
 // const bust = function (points) {
 //     if (points > 21) {
