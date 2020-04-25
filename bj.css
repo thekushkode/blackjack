@@ -29,3 +29,9 @@ img {
     padding-top: 10px;
     padding-right: 150px;
 }
+
+.points {
+    color: white;
+    font-weight: 900;
+    font-size: 20px;
+}
