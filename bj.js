@@ -92,24 +92,24 @@ const playerPoints = document.getElementById("player-points");
 
 // let dealerHandArray = [];
 // let playerHandArray = [];
-const dealCards = () => { 
+const dealCards = () => {
     for (let i = 0; i < 1; i++) {
         cardImg1.setAttribute("src", card1src);
         cardImg1.setAttribute("data-attribute", card2value);
         playerHand.appendChild(cardImg1);
         p_Points += card1value;
-        
+
         cardImg2.setAttribute("src", card2src);
         cardImg2.setAttribute("data-attribute", card2value);
         dealerHand.appendChild(cardImg2);
         d_Points += card2value;
-        
+
         cardImg3.setAttribute("src", card3src);
         cardImg3.setAttribute("data-attribute", card3value);
         playerHand.appendChild(cardImg3);
         p_Points += card3value;
         playerPoints.textContent = p_Points
-        
+
         cardImg4.setAttribute("src", card4src);
         cardImg4.setAttribute("data-attribute", card4value);
         dealerHand.appendChild(cardImg4);
@@ -141,7 +141,67 @@ hitButton.addEventListener("click", () => {
     p_Points += hitCardValue;
     playerPoints.textContent = p_Points
     deck.shift();
-})
+    bust();
+    setTimeout(reset, 2000);
+});
+
+standButton.addEventListener("click", () => {
+    if (d_Points === 17) {
+        if (p_Points > 17) {
+            alert("You won!");
+        } 
+    } else {
+        while (d_Points === 16 || d_Points < p_Points) {
+            let dealerHitCard = document.createElement("img");
+            let dealerHitCardObj = deck[getRandomInt(48)];
+            let dealerHitCardSrc = dealerHitCardObj["src"];
+            let dealerHitCardValue = dealerHitCardObj["value"];
+            dealerHitCard.setAttribute("src", dealerHitCardSrc);
+            dealerHand.appendChild(dealerHitCard);
+            d_Points += dealerHitCardValue;
+            dealerPoints.textContent = d_Points;
+        }
+    }
+    if (d_Points > 21) {
+        alert("You Won!");
+    } else if (d_Points <= 21 && d_Points > p_Points) {
+        alert("You Lost!");
+    } else if (d_Points === p_Points) {
+        alert("It's a tie!")
+    }
+    reset();
+});
+
+const reload = function () {
+    location.reload(true);
+}
+
+const reset = function () {
+    if (p_Points > 21) {
+        playerHand.innerHTML = "";
+        dealerHand.innerHTML = "";
+        p_Points = 0;
+        d_Points = 0;
+        playerPoints.textContent = 0;
+        dealerPoints.textContent = 0;
+    } else if (d_Points > 21) {
+        dealerHand.innerHTML = "";
+        playerHand.innerHTML = "";
+        p_Points = 0;
+        d_Points = 0;
+        playerPoints.textContent = 0;
+        dealerPoints.textContent = 0;
+    }
+    setTimeout(reload, 2000);
+}
+
+const bust = function () {
+    if (p_Points > 21) {
+        playerPoints.textContent = "💣 You Busted! 💣";
+    } else if (d_Points > 21) {
+        dealerPoints.textContent = "💣 You Busted! 💣"
+    }
+}
 
 // const bust = function (points) {
 //     if (points > 21) {
@@ -154,7 +214,7 @@ hitButton.addEventListener("click", () => {
 function getRandomInt(cardCount) {
     return Math.floor(Math.random() * Math.floor(cardCount));
 }
-console.log(getRandomInt(52)) 
+console.log(getRandomInt(52))
 console.log(deck[getRandomInt(52)]);
 
 // gets obj based on string
