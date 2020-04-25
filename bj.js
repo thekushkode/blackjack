@@ -142,35 +142,39 @@ hitButton.addEventListener("click", () => {
     playerPoints.textContent = p_Points
     deck.shift();
     bust();
-    setTimeout(reset, 2000);
+    setTimeout(reset, 200);
 });
 
 standButton.addEventListener("click", () => {
-    if (d_Points === 17) {
-        if (p_Points > 17) {
-            alert("You won!");
-        } 
-    } else {
-        while (d_Points === 16 || d_Points < p_Points) {
-            let dealerHitCard = document.createElement("img");
-            let dealerHitCardObj = deck[getRandomInt(48)];
-            let dealerHitCardSrc = dealerHitCardObj["src"];
-            let dealerHitCardValue = dealerHitCardObj["value"];
-            dealerHitCard.setAttribute("src", dealerHitCardSrc);
-            dealerHand.appendChild(dealerHitCard);
-            d_Points += dealerHitCardValue;
-            dealerPoints.textContent = d_Points;
-        }
+    dealerHit();
+    winner();
+    reset();
+});
+
+const dealerHit = function () {
+    while (d_Points < p_Points || d_Points === 16) {
+        let dealerHitCard = document.createElement("img");
+        let dealerHitCardObj = deck[getRandomInt(48)];
+        let dealerHitCardSrc = dealerHitCardObj["src"];
+        let dealerHitCardValue = dealerHitCardObj["value"];
+        dealerHitCard.setAttribute("src", dealerHitCardSrc);
+        dealerHand.appendChild(dealerHitCard);
+        d_Points += dealerHitCardValue;
+        dealerPoints.textContent = d_Points;
     }
-    if (d_Points > 21) {
+}
+
+const winner = function () {
+    if (d_Points === 17 && p_Points > 17) {
+        alert("You won!");
+    } else if (d_Points > 21) {
         alert("You Won!");
     } else if (d_Points <= 21 && d_Points > p_Points) {
         alert("You Lost!");
     } else if (d_Points === p_Points) {
         alert("It's a tie!")
     }
-    reset();
-});
+}
 
 const reload = function () {
     location.reload(true);
@@ -192,7 +196,7 @@ const reset = function () {
         playerPoints.textContent = 0;
         dealerPoints.textContent = 0;
     }
-    setTimeout(reload, 2000);
+    setTimeout(reload, 200);
 }
 
 const bust = function () {
